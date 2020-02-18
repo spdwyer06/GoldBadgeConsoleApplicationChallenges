@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BadgesUI
+namespace BadgesRepository
 {
-    class Badge
+    public class Badge
     {
         public int BadgeID { get; set; }
         public List<string> Access { get; set; }

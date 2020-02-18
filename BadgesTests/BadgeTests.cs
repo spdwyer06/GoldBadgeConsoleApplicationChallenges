@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BadgesTests
 {
     [TestClass]
-    public class UnitTest1
+    public class BadgeTests
     {
         [TestMethod]
         public void TestMethod1()
