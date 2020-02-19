@@ -10,7 +10,7 @@ namespace BadgesUI
     {
         static void Main(string[] args)
         {
-            SecurityAgentMenu menu = new SecurityAgentMenu();
+            ProgramUI menu = new ProgramUI();
             menu.Run();
         }
     }

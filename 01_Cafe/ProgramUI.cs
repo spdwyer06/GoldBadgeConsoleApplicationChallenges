@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace _01_Cafe
+namespace CafeUI
 {
-    class Menu
+    class ProgramUI
     {
         //List<string> ingredients = new List<string>(); 
-        List<MenuItem> menu = new List<MenuItem>();
-
+        //List<MenuItem> menu = new List<MenuItem>();
+       CafeRepo 
 
         public void Run()
         {

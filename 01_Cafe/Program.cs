@@ -1,16 +1,13 @@
 ﻿using System;
 
-namespace _01_Cafe
+namespace CafeUI
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Menu menu = new Menu();
+            ProgramUI menu = new ProgramUI();
             menu.Run();
         }
-
-    
-
     }
 }

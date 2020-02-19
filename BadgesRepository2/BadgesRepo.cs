@@ -9,7 +9,7 @@ namespace BadgesRepository
     public class BadgesRepo
     {
         protected readonly Dictionary<int, Badge> _badgeCollection = new Dictionary<int, Badge>();
-
+        /*
         public bool IsIDTaken(Badge newBadge)
         {
             if (_badgeCollection.ContainsKey(newBadge.BadgeID))
@@ -21,7 +21,8 @@ namespace BadgesRepository
                 return false;
             }
         }
-        public bool DoesListContain(Badge badge)
+        */
+        public bool DoesListContainBadgeID(Badge badge)
         {
             if (_badgeCollection.ContainsKey(badge.BadgeID))
             {
@@ -51,19 +52,42 @@ namespace BadgesRepository
         public int DisplayBadgeID(int userInput)
         {
             return _badgeCollection[userInput].BadgeID;
-            //Console.WriteLine($"Badge ID: {_badgeCollection[userInput].BadgeID}");
         }
         public string DisplayBadgeAccess(int userInput)
         {
             return String.Join(",", _badgeCollection[userInput].Access);
-            //Console.WriteLine($"Current door access: {String.Join(",", _badgeCollection[userInput].Access)}");
+        }
+        public bool CheckAssignedBadgeAccess(int userInput, string doorAccess)
+        {
+            if (_badgeCollection[userInput].Access.Contains(doorAccess))
+            {
+                return true;
+            }
+            else
+            {
+                return false; 
+            }
+        }
+        public bool AddBadgeAccess(int userInput, string addAccess)
+        {
+            int badgeAccessLength = _badgeCollection[userInput].Access.Count();
+            _badgeCollection[userInput].Access.Add(addAccess);
+            bool wasAdded = badgeAccessLength + 1 == _badgeCollection[userInput].Access.Count();
+            return wasAdded;
         }
         public bool RemoveBadgeAccess(int userInput, string removeAccess)
         {
-            int collectionLength = _badgeCollection[userInput].Access.Count();
+            int badgeAccessLength = _badgeCollection[userInput].Access.Count();
             _badgeCollection[userInput].Access.Remove(removeAccess);
-            bool wasRemoved = collectionLength - 1 == _badgeCollection[userInput].Access.Count();
+            bool wasRemoved = badgeAccessLength - 1 == _badgeCollection[userInput].Access.Count();
             return wasRemoved;
+        }
+        public bool DeleteAllBadgeAccess(int userInput)
+        {
+            int badgeAccessLength = _badgeCollection[userInput].Access.Count();
+            _badgeCollection[userInput].Access.Clear();
+            bool wasDeleted = badgeAccessLength == _badgeCollection[userInput].Access.Count();
+            return wasDeleted;
         }
     }
 }

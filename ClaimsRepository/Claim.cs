@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClaimsUI
+namespace ClaimsRepository
 {
-    class Claim
+    public class Claim
     {
         public enum TypeOfClaim { Car, Home, Theft }
 
@@ -43,7 +43,7 @@ namespace ClaimsUI
         }
 
         public Claim() { }
-
+        /*
         public Claim(int claimID, TypeOfClaim claimType, string description, decimal claimAmmount, DateTime dateOfIncident, DateTime dateOfClaim)
         {
             ClaimID = claimID;
@@ -54,26 +54,12 @@ namespace ClaimsUI
             DateOfClaim = dateOfClaim;
             //IsValid = isValid;
         }
-
+        */
 
 
 
 
 
     }
-        /*
-        public bool FindIfValid()
-        {
-            TimeSpan daysBeforeClaimed = DateOfClaim - DateOfIncindent;
-            int daysClaimed = int.Parse(daysBeforeClaimed.ToString());
-            if (daysClaimed <= 30)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        */
+        
 }

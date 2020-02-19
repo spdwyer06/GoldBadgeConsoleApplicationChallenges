@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BadgesUI
 {
-    class SecurityAgentMenu
+    class ProgramUI
     {
         BadgesRepo accessLog = new BadgesRepo();
         List<string> possibleDoors = new List<string>() { "A1", "A2", "A3", "A4", "A5", "A6" };
@@ -34,10 +34,10 @@ namespace BadgesUI
                     AddBadge();
                     break;
                 case "2":
-                    //UpdateBadgeAccess();
+                    UpdateBadgeAccess();
                     break;
                 case "3":
-                    //DeleteAllBadgeAccess();
+                    DeleteAllBadgeAccessMenu();
                     break;
                 case "4":
                     DisplayAllBadges();
@@ -65,7 +65,7 @@ namespace BadgesUI
             {
                 newBadge.BadgeID = Convert.ToInt32(possibleID);
                 // Checks to make sure Badge ID isn't already being used
-                if (accessLog.IsIDTaken(newBadge)==true)//(accessLog.ContainsKey(newBadgeID))
+                if (accessLog.DoesListContainBadgeID(newBadge)==true)
                 {
                     Console.WriteLine("\n" +
                         "Badge ID already being used, choose another Badge ID.\n" +
@@ -151,14 +151,24 @@ namespace BadgesUI
         {
             Console.Clear();
 
-            Badge badge = new Badge(); 
+            Badge badge = new Badge();
             Console.Write("Enter the Badge ID: ");
             // Verifying user input
             string possibleID = Console.ReadLine();
-            Int32.TryParse(possibleID, out int userInput);
-            badge.BadgeID = Convert.ToInt32(possibleID); 
+            if (Int32.TryParse(possibleID, out int userInput))
+            {
+                badge.BadgeID = Convert.ToInt32(possibleID);
+            }
+            else
+            {
+                Console.WriteLine("\n" +
+                    "Invalid Badge ID, please try again.\n" +
+                    "Press any key to continue...");
+                Console.ReadKey();
+                UpdateBadgeAccess();
+            }
             // Verifying the badge exists
-            if (accessLog.DoesListContain(badge)==true)//(accessLog.ContainsKey(userInput))
+            if (accessLog.DoesListContainBadgeID(badge) == true)
             {
                 Console.Clear();
                 // Displays chosen badge ID
@@ -184,7 +194,7 @@ namespace BadgesUI
                         string addAccess = Console.ReadLine().ToUpper();
                         if (possibleDoors.Contains(addAccess))
                         {
-                            if (accessLog[userInput].Access.Contains(addAccess))
+                            if (accessLog.CheckAssignedBadgeAccess(userInput, addAccess) == true)
                             {
                                 Console.WriteLine("\n" +
                                     "Current badge has already been given access to chosen door. \n" +
@@ -204,9 +214,7 @@ namespace BadgesUI
                                 string confirmUpdate = Console.ReadLine();
                                 if (confirmUpdate == "y" || confirmUpdate == "Y")
                                 {
-                                    // repo AddBadgeAccess()
-                                    accessLog[userInput].Access.Add(addAccess);
-                                    //
+                                    accessLog.AddBadgeAccess(userInput, addAccess);
                                     Console.WriteLine("\n" +
                                         "Door access added.");
                                 }
@@ -236,7 +244,7 @@ namespace BadgesUI
                         if (possibleDoors.Contains(removeAccess))
                         {
                             // Verifying badge being updated has been assigned access to door for removal
-                            if (accessLog[userInput].Access.Contains(removeAccess))
+                            if (accessLog.CheckAssignedBadgeAccess(userInput, removeAccess) == true)
                             {
                                 Console.Write($"\n" +
                                     $"You want to remove\n" +
@@ -347,27 +355,37 @@ namespace BadgesUI
             }
         }
         */
-        /*
-        public void DeleteAllBadgeAccess()
+        
+        public void DeleteAllBadgeAccessMenu()
         {
             Console.Clear();
 
+            Badge badge = new Badge();
             Console.Write("Enter the Badge ID: ");
             string possibleID = Console.ReadLine();
-            Int32.TryParse(possibleID, out int userInput);
-            if (accessLog.ContainsKey(userInput))
+            if(Int32.TryParse(possibleID, out int userInput))
+            {
+                badge.BadgeID = userInput;
+            }
+            else
+            {
+                Console.WriteLine("\n" +
+                   "Invalid Badge ID, please try again.\n" +
+                   "Press any key to continue...");
+                Console.ReadKey();
+                DeleteAllBadgeAccessMenu();
+            }
+            if (accessLog.DoesListContainBadgeID(badge))
             {
                 Console.Clear();
-                Console.WriteLine($"Badge ID: {accessLog[userInput].BadgeID}\n" +
-                    $"Door access: {String.Join(", ", accessLog[userInput].Access)}");
+                Console.WriteLine($"Badge ID: {accessLog.DisplayBadgeID(userInput)}\n" +
+                    $"Door access: {accessLog.DisplayBadgeAccess(userInput)}");
                 Console.Write("\n" +
                     "Delete all door access (y/n)?: ");
                 string confirmDelete = Console.ReadLine();
                 if (confirmDelete == "y" || confirmDelete == "Y")
                 {
-                    // repo DeleteAllBadgeAccess()
-                    accessLog[userInput].Access.Clear();
-                    //
+                    accessLog.DeleteAllBadgeAccess(userInput);
                     Console.WriteLine("\n" +
                         "All door access removed.");
                 }
@@ -389,8 +407,6 @@ namespace BadgesUI
                 MainMenu();
             }
         }
-        
-        */
         public void DisplayAllBadges()
         {
             Console.Clear();

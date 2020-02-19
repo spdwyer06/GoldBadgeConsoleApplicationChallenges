@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ClaimsRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ClaimsUI.Claim;
+using static ClaimsRepository.Claim;
 
 namespace ClaimsUI
 {
-    class ClaimsAgentMenu
+    class ProgramUI
     {
-        Queue<Claim> claims = new Queue<Claim>(); 
+        ClaimsRepo claims = new ClaimsRepo();
 
         public void Run()
         {
@@ -51,17 +52,7 @@ namespace ClaimsUI
         {
             Console.Clear();
 
-            foreach(Claim claim in claims)
-            {
-                Console.WriteLine($"Claim ID: {claim.ClaimID}\n" +
-                    $"Claim Type: {claim.ClaimType}\n" +
-                    $"Description: {claim.Description}\n" +
-                    $"Claim Ammount: ${claim.ClaimAmount}\n" +
-                    $"Date Of Incident: {claim.DateOfIncindent}\n" +
-                    $"Date Of Claim: {claim.DateOfClaim}\n" +
-                    $"Is Valid: {claim.IsValid}\n" +
-                    $"");
-            }
+            claims.DisplayAllClaims();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             MainMenu();
@@ -70,14 +61,7 @@ namespace ClaimsUI
         {
             Console.Clear();
 
-            Claim nextClaim = claims.Peek();
-            Console.WriteLine($"Claim ID: {nextClaim.ClaimID}\n" +
-                $"Claim Type: {nextClaim.ClaimType}\n" +
-                $"Description: {nextClaim.Description}\n" +
-                $"Claim Ammount: ${nextClaim.ClaimAmount}\n" +
-                $"Date Of Incident: {nextClaim.DateOfIncindent}\n" +
-                $"Date Of Claim: {nextClaim.DateOfClaim}\n" +
-                $"Is Valid: {nextClaim.IsValid}");
+            claims.ViewNextClaim();
             Console.Write("Do you want to handle this claim now (y/n)?:");
             string agentInput = Console.ReadLine();
             if(agentInput=="y" || agentInput=="Y")
@@ -111,24 +95,7 @@ namespace ClaimsUI
                 "[2] Home\n" +
                 "[3] Theft");
             string claimType = Console.ReadLine();
-            switch(claimType)
-            {
-                case "1":
-                    newClaim.ClaimType = TypeOfClaim.Car;
-                    break;
-                case "2":
-                    newClaim.ClaimType = TypeOfClaim.Home;
-                    break;
-                case "3":
-                    newClaim.ClaimType = TypeOfClaim.Theft;
-                    break;
-                default:
-                    Console.WriteLine("Not a valid Claim Type\n" +
-                        "Press any key to redirect...");
-                    Console.ReadKey();
-
-                    break;
-            }
+            claims.ChooseClaimType(newClaim, claimType);
             Console.Write("Enter a Claim Description: ");
             newClaim.Description = Console.ReadLine();
             Console.Write("Enter the amount of damage: ");
