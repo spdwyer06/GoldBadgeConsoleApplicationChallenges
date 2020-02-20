@@ -51,11 +51,25 @@ namespace ClaimsUI
         public void SeeAllClaims()
         {
             Console.Clear();
-
-            claims.DisplayAllClaims();
+            List<Claim> claimsList = new List<Claim>();
+            claimsList = claims.GetAllClaims();
+            foreach (Claim claim in claimsList)
+            {
+                Console.WriteLine($"Claim ID: {claim.ClaimID}\n" +
+                    $"Claim Type: {claim.ClaimType}\n" +
+                    $"Description: {claim.Description}\n" +
+                    $"Claim Ammount: ${claim.ClaimAmount}\n" +
+                    $"Date Of Incident: {claim.DateOfIncindent}\n" +
+                    $"Date Of Claim: {claim.DateOfClaim}\n" +
+                    $"Is Valid: {claim.IsValid}\n" +
+                    $"");
+            }
+            
+            //claims.DisplayAllClaims();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             MainMenu();
+            
         }
         public void NextClaim()
         {
@@ -95,7 +109,24 @@ namespace ClaimsUI
                 "[2] Home\n" +
                 "[3] Theft");
             string claimType = Console.ReadLine();
-            claims.ChooseClaimType(newClaim, claimType);
+            switch (claimType)
+            {
+                case "1":
+                    newClaim.ClaimType = TypeOfClaim.Car;
+                    break;
+                case "2":
+                    newClaim.ClaimType = TypeOfClaim.Home;
+                    break;
+                case "3":
+                    newClaim.ClaimType = TypeOfClaim.Theft;
+                    break;
+                default:
+                    Console.WriteLine("Not a valid Claim Type\n" +
+                        "Press any key to redirect...");
+                    Console.ReadKey();
+
+                    break;
+            }
             Console.Write("Enter a Claim Description: ");
             newClaim.Description = Console.ReadLine();
             Console.Write("Enter the amount of damage: ");

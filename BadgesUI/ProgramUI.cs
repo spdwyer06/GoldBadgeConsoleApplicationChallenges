@@ -409,12 +409,20 @@ namespace BadgesUI
         }
         public void DisplayAllBadges()
         {
+            
             Console.Clear();
-            accessLog.DisplayCollection();
+
+            Dictionary<int, Badge> badges = new Dictionary<int, Badge>();
+            badges = accessLog.GetAllBadges();
+            foreach (KeyValuePair<int, Badge> badge in badges)
+            {
+                Console.WriteLine($"Badge ID: {badge.Value.BadgeID}\n" +
+                  $"Door access: {String.Join(",", badge.Value.Access)}\n" +
+                  $"");
+            }
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             MainMenu();
-
         }
         // repo??
         public void SeedBadges()

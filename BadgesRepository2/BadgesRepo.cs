@@ -40,14 +40,15 @@ namespace BadgesRepository
             bool wasAdded = collectionLength + 1 == _badgeCollection.Count();
             return wasAdded;
         }
-        public void DisplayCollection()
+        public Dictionary<int, Badge> GetAllBadges()
         {
+            Dictionary<int, Badge> badges = new Dictionary<int, Badge>();
+
             foreach (KeyValuePair<int, Badge> badge in _badgeCollection)
             {
-                Console.WriteLine($"Badge ID: {badge.Value.BadgeID}\n" +
-                   $"Door access: {String.Join(",", badge.Value.Access)}\n" +
-                   $"");
+                badges.Add(badge.Key, badge.Value);
             }
+            return badges;
         }
         public int DisplayBadgeID(int userInput)
         {
@@ -86,7 +87,7 @@ namespace BadgesRepository
         {
             int badgeAccessLength = _badgeCollection[userInput].Access.Count();
             _badgeCollection[userInput].Access.Clear();
-            bool wasDeleted = badgeAccessLength == _badgeCollection[userInput].Access.Count();
+            bool wasDeleted = badgeAccessLength * 0 == _badgeCollection[userInput].Access.Count();
             return wasDeleted;
         }
     }

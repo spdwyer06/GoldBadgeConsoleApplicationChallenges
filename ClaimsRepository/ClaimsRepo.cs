@@ -11,6 +11,18 @@ namespace ClaimsRepository
     {
         private readonly Queue<Claim> _claims = new Queue<Claim>();
         
+        public List<Claim> GetAllClaims()
+        {
+            List<Claim> claims = new List<Claim>();
+
+            foreach(Claim claim in _claims)
+            {
+                claims.Add(claim);
+            }
+
+            return claims; 
+        }
+        /*
         public void DisplayAllClaims()
         {
             foreach (Claim claim in _claims)
@@ -25,45 +37,36 @@ namespace ClaimsRepository
                     $"");
             }
         }
-        public void ViewNextClaim()
+        */
+        
+        public string ViewNextClaim()
         {
             Claim nextClaim = _claims.Peek();
-            Console.WriteLine($"Claim ID: {nextClaim.ClaimID}\n" +
+            string x = ($"Claim ID: {nextClaim.ClaimID}\n" +
                 $"Claim Type: {nextClaim.ClaimType}\n" +
                 $"Description: {nextClaim.Description}\n" +
                 $"Claim Ammount: ${nextClaim.ClaimAmount}\n" +
                 $"Date Of Incident: {nextClaim.DateOfIncindent}\n" +
                 $"Date Of Claim: {nextClaim.DateOfClaim}\n" +
                 $"Is Valid: {nextClaim.IsValid}");
+            Console.WriteLine(x);
+            return x;
         }
-        public void Dequeue()
+        
+        public bool Dequeue()
         {
+            int claimsCount = _claims.Count();
             _claims.Dequeue();
+            bool wasDequeued = claimsCount - 1 == _claims.Count();
+            return wasDequeued;
         }
-        public void Enqueue(Claim claim)
+        
+        public bool Enqueue(Claim claim)
         {
+            int claimsCount = _claims.Count();
             _claims.Enqueue(claim);
-        }
-        public void ChooseClaimType(Claim newClaim, string claimType)
-        {
-            switch (claimType)
-            {
-                case "1":
-                    newClaim.ClaimType = TypeOfClaim.Car;
-                    break;
-                case "2":
-                    newClaim.ClaimType = TypeOfClaim.Home;
-                    break;
-                case "3":
-                    newClaim.ClaimType = TypeOfClaim.Theft;
-                    break;
-                default:
-                    Console.WriteLine("Not a valid Claim Type\n" +
-                        "Press any key to redirect...");
-                    Console.ReadKey();
-
-                    break;
-            }
+            bool wasEnqueued = claimsCount + 1 == _claims.Count();
+            return wasEnqueued;
         }
     }
 }

@@ -10,5 +10,12 @@ namespace BadgesRepository
     {
         public int BadgeID { get; set; }
         public List<string> Access { get; set; }
+
+        public Badge() { }
+        public Badge(int badgeID, List<string> access)
+        {
+            BadgeID = badgeID;
+            Access = access; 
+        }
     }
 }

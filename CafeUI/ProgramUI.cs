@@ -92,7 +92,20 @@ namespace CafeUI
         }
         public void ViewAllMenuItems()
         {
-            menu.DisplayAllMenuItems();
+            List<MenuItem> allMenuItems = new List<MenuItem>();
+            allMenuItems = menu.GetAllMenuItems();
+            foreach (MenuItem item in allMenuItems)
+            {
+                Console.WriteLine($"Meal Number: {item.MealNumber}\n" +
+                    $"Item Name: {item.MealName}\n" +
+                    $"Description: {item.Description}");
+                foreach (string ingredient in item.Ingredients)
+                {
+                    Console.WriteLine($"Ingredients: {ingredient}");
+                }
+                Console.WriteLine($"Price: ${item.Price}\n" +
+                    $"");
+            }
             Console.WriteLine("Press any key to return to main menu.");
             Console.ReadKey();
             Console.Clear();

@@ -24,20 +24,15 @@ namespace CafeRepository
             bool wasRemoved = menuLength - 1 == _menu.Count();
             return wasRemoved;
         }
-        public void DisplayAllMenuItems()
+        public List<MenuItem> GetAllMenuItems()
         {
-            foreach (MenuItem item in _menu)
+            List<MenuItem> menu = new List<MenuItem>();
+
+            foreach(MenuItem item in _menu)
             {
-                Console.WriteLine($"Meal Number: {item.MealNumber}\n" +
-                    $"Item Name: {item.MealName}\n" +
-                    $"Description: {item.Description}");
-                foreach (string ingredient in item.Ingredients)
-                {
-                    Console.WriteLine($"Ingredients: {ingredient}");
-                }
-                Console.WriteLine($"Price: ${item.Price}\n" +
-                    $"");
+                menu.Add(item);
             }
+            return menu; 
         }
         public MenuItem GetMenuItemByName(string name)
         {
